@@ -42,8 +42,34 @@ public class CalculadoraTeste {
 		 //Checar nome escrito
 		 String textoEscrito = campoNome.getText();
 		 Assert.assertEquals("Thiago", textoEscrito);
+		 		 
+		 driver.quit();
+	 }
+	
+	@Test
+	 public void deveInteragirComCombo() throws MalformedURLException {
+		 DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+		 desiredCapabilities.setCapability("platformName", "Android");
+		 desiredCapabilities.setCapability("deviceName", "NQTL2N0057");
+		 desiredCapabilities.setCapability("automationName", "uiautomator2");
+		 desiredCapabilities.setCapability("appPackage", "com.ctappium");
+		 desiredCapabilities.setCapability("appActivity", "com.ctappium.MainActivity");
 		 
+		 AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), desiredCapabilities);
+		 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		 
+		 //Selecionar Formulário
+		 driver.findElement(By.xpath("//android.widget.TextView[@text='Formulário']")).click();
+		 
+		 //Clicar no combo
+		 driver.findElement(AppiumBy.accessibilityId("console")).click();
+		 
+		 //Selecionar a opção desejada
+		 driver.findElement(By.xpath("//android.widget.CheckedTextView[@text='Nintendo Switch']")).click();
+		 
+		 //Verificar a opção selecionada
+		 String textoDoCombo = driver.findElement(By.id("android:id/text1")).getText();
+		 Assert.assertEquals("Nintendo Switch", textoDoCombo);
 		
 		 
 		 driver.quit();
