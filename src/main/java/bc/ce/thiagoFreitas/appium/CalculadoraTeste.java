@@ -74,4 +74,54 @@ public class CalculadoraTeste {
 		 
 		 driver.quit();
 	 }
+	
+	@Test
+	 public void deveInteragirComSwitchECheckbox() throws MalformedURLException {
+		 DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+		 desiredCapabilities.setCapability("platformName", "Android");
+		 desiredCapabilities.setCapability("deviceName", "NQTL2N0057");
+		 desiredCapabilities.setCapability("automationName", "uiautomator2");
+		 desiredCapabilities.setCapability("appPackage", "com.ctappium");
+		 desiredCapabilities.setCapability("appActivity", "com.ctappium.MainActivity");
+		 
+		 AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), desiredCapabilities);
+		 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		 
+		 //Selecionar Formulario
+		 driver.findElement(By.xpath("//*[@text='Formulário']")).click();
+		 
+		 //Verificar status dos elementos
+		 WebElement checkBox = driver.findElement(By.className("android.widget.CheckBox"));
+		 WebElement switchElement = driver.findElement(AppiumBy.accessibilityId("switch"));
+		 Assert.assertTrue(checkBox.getAttribute("checked").equals("false"));
+		 Assert.assertTrue(switchElement.getAttribute("checked").equals("true"));
+		
+		 
+		 //Clicar nos elementos
+		 checkBox.click();
+		 switchElement.click();
+		 
+		 //Verificar estados alterados
+		 Assert.assertFalse(checkBox.getAttribute("checked").equals("false"));
+		 Assert.assertFalse(switchElement.getAttribute("checked").equals("true"));
+		 
+		 driver.quit();
+	 }
+	
+	@Test
+	 public void desafioFormulario() throws MalformedURLException {
+		 DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+		 desiredCapabilities.setCapability("platformName", "Android");
+		 desiredCapabilities.setCapability("deviceName", "NQTL2N0057");
+		 desiredCapabilities.setCapability("automationName", "uiautomator2");
+		 desiredCapabilities.setCapability("appPackage", "com.ctappium");
+		 desiredCapabilities.setCapability("appActivity", "com.ctappium.MainActivity");
+		 
+		 AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), desiredCapabilities);
+		 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		 
+		 
+		 
+		 driver.quit();
+	 }
 }
