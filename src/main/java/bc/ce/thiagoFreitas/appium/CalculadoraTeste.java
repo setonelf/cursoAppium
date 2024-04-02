@@ -1,106 +1,88 @@
 package bc.ce.thiagoFreitas.appium;
 
+import static org.junit.Assert.assertEquals;
+
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
+import appium.core.DSL;
+import appium.core.DriverFactory;
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.android.AndroidDriver;
 
 
 
 
 public class CalculadoraTeste {
-	AndroidDriver driver;
+	
+	private DSL dsl = new DSL();
 	
 	@Before
-	private void InicializarAppium() throws MalformedURLException {
-		DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-		 desiredCapabilities.setCapability("platformName", "Android");
-		 desiredCapabilities.setCapability("deviceName", "NQTL2N0057");
-		 desiredCapabilities.setCapability("automationName", "uiautomator2");
-		 desiredCapabilities.setCapability("appPackage", "com.ctappium");
-		 desiredCapabilities.setCapability("appActivity", "com.ctappium.MainActivity");
-		 
-		 driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), desiredCapabilities);
-		 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		 
-		 //Selecionar Formulário
-		 driver.findElement(By.xpath("//*[@text='Formulário']")).click();
+	public void inicializarAppium() throws MalformedURLException{
+		
+		//Selecionar Formulário
+		dsl.clicarPorTexto("Formulário");
 	}
+				
 	
 	@After
-	private void tearDown() {
-		driver.quit();
+	public void tearDown() {
+		DriverFactory.killDriver();
 	}
 
 	@Test
 	 public void devePreencherCampoTexto() throws MalformedURLException {
 		 //Escrever Nome
-		 WebElement campoNome = driver.findElement(AppiumBy.accessibilityId("nome"));
-		 campoNome.sendKeys("Thiago");
-		 
+		dsl.escrever(AppiumBy.accessibilityId("nome"), "Thiago");
+		
 		 //Checar nome escrito
-		 String textoEscrito = campoNome.getText();
-		 Assert.assertEquals("Thiago", textoEscrito);
+		assertEquals("Thiago", dsl.obterTexto(AppiumBy.accessibilityId("nome")));
 		 		 
 	 }
 	
 	@Test
-	 public void deveInteragirComCombo() throws MalformedURLException {
-		 //Clicar no combo
-		 driver.findElement(AppiumBy.accessibilityId("console")).click();
-		 
-		 //Selecionar a opção desejada
-		 driver.findElement(By.xpath("//android.widget.CheckedTextView[@text='Nintendo Switch']")).click();
-		 
-		 //Verificar a opção selecionada
-		 String textoDoCombo = driver.findElement(By.id("android:id/text1")).getText();
-		 Assert.assertEquals("Nintendo Switch", textoDoCombo);
+	 public void deveInteragirComCombo() throws MalformedURLException {	
+		
+		dsl.clicarNoCombo(AppiumBy.accessibilityId("console"), "Nintendo Switch");
+		Assert.assertEquals("Nintendo Switch", dsl.obterTexto(By.id("android:id/text1")));
+		
 	 }
 	
 	@Test
 	 public void deveInteragirComSwitchECheckbox() throws MalformedURLException {
 		 //Verificar status dos elementos
-		 WebElement checkBox = driver.findElement(By.className("android.widget.CheckBox"));
-		 WebElement switchElement = driver.findElement(AppiumBy.accessibilityId("switch"));
-		 Assert.assertTrue(checkBox.getAttribute("checked").equals("false"));
-		 Assert.assertTrue(switchElement.getAttribute("checked").equals("true"));
-		
-		 
+		 Assert.assertFalse(dsl.isCheckMarcado(By.className("android.widget.CheckBox")));
+		 Assert.assertTrue(dsl.isCheckMarcado(AppiumBy.accessibilityId("switch")));
+				 
 		 //Clicar nos elementos
-		 checkBox.click();
-		 switchElement.click();
+		 dsl.clickElement(By.className("android.widget.CheckBox"));
+		 dsl.clickElement(AppiumBy.accessibilityId("switch"));
 		 
 		 //Verificar estados alterados
-		 Assert.assertFalse(checkBox.getAttribute("checked").equals("false"));
-		 Assert.assertFalse(switchElement.getAttribute("checked").equals("true"));
+		 Assert.assertTrue(dsl.isCheckMarcado(By.className("android.widget.CheckBox")));
+		 Assert.assertFalse(dsl.isCheckMarcado(AppiumBy.accessibilityId("switch")));
 	 }
 	
 	@Test
 	 public void desafioFormulario() throws MalformedURLException {
 		 //Preencher campos
-		 driver.findElement(AppiumBy.accessibilityId("nome")).sendKeys("Thiago");
-		 driver.findElement(AppiumBy.accessibilityId("console")).click();
-		 driver.findElement(By.xpath("//android.widget.CheckedTextView[@text='Nintendo Switch']")).click();
-		 driver.findElement(AppiumBy.accessibilityId("check")).click();
-		 driver.findElement(AppiumBy.accessibilityId("switch")).click();
+		dsl.escrever(AppiumBy.accessibilityId("nome"), "Thiago");
+		dsl.clickElement(AppiumBy.accessibilityId("console"));
+		dsl.clicarPorTexto("Nintendo Switch");
+		dsl.clickElement(AppiumBy.accessibilityId("check")); 
+		dsl.clickElement(AppiumBy.accessibilityId("switch")); 
 		 		 
 		 //Salvar
-		 driver.findElement(AppiumBy.accessibilityId("save")).click();
+		dsl.clickElement(AppiumBy.accessibilityId("save"));
 		 
 		 //Validar Campos		 
-		 Assert.assertEquals("Nome: Thiago", driver.findElement(By.xpath("//android.widget.TextView[contains(@text, 'Nome:')]")).getText());
-		 Assert.assertEquals("Console: switch", driver.findElement(By.xpath("//android.widget.TextView[contains(@text, 'Console:')]")).getText());
-		 Assert.assertEquals("Switch: Off", driver.findElement(By.xpath("//android.widget.TextView[contains(@text, 'Switch:')]")).getText());
-		 Assert.assertEquals("Checkbox: Marcado", driver.findElement(By.xpath("//android.widget.TextView[contains(@text, 'Checkbox:')]")).getText());
+		 Assert.assertEquals("Nome: Thiago", dsl.obterTexto(By.xpath("//android.widget.TextView[contains(@text, 'Nome:')]")));
+		 Assert.assertEquals("Console: switch", dsl.obterTexto(By.xpath("//android.widget.TextView[contains(@text, 'Console:')]")));
+		 Assert.assertEquals("Switch: Off", dsl.obterTexto(By.xpath("//android.widget.TextView[contains(@text, 'Switch:')]")));
+		 Assert.assertEquals("Checkbox: Marcado", dsl.obterTexto(By.xpath("//android.widget.TextView[contains(@text, 'Checkbox:')]")));
 	 }
 }
