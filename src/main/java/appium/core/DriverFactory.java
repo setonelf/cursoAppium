@@ -1,16 +1,19 @@
 package appium.core;
 
+import java.awt.Menu;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import bc.ce.thiagoFreitas.page.MenuPage;
 import io.appium.java_client.android.AndroidDriver;
 
 public class DriverFactory {
 	
 	private static AndroidDriver driver;
+	
 	
 	public static AndroidDriver getDriver() {
 		if(driver ==null) {
