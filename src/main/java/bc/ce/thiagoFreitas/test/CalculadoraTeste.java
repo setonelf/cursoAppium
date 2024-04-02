@@ -16,25 +16,20 @@ public class CalculadoraTeste extends BaseTest{
 	private FormularioPage formularioPage = new FormularioPage();
 	
 	@Before
-	public void inicializarAppium() throws MalformedURLException{
-		
+	public void inicializarAppium() throws MalformedURLException{		
 		menuPage.acessarFormulario();
-	}				
-	
-	
+	}						
 
 	@Test
 	 public void devePreencherCampoTexto() throws MalformedURLException {
 		formularioPage.escreverNome("Thiago");
-		assertEquals("Thiago", formularioPage.obterNome());
-		 		 
+		assertEquals("Thiago", formularioPage.obterNome());		 		 
 	 }
 	
 	@Test
 	 public void deveInteragirComCombo() throws MalformedURLException {		
 		formularioPage.selecionarCombo("Nintendo Switch");
-		assertEquals("Nintendo Switch", formularioPage.obterValorCombo());
-		
+		assertEquals("Nintendo Switch", formularioPage.obterValorCombo());		
 	 }
 	
 	@Test
