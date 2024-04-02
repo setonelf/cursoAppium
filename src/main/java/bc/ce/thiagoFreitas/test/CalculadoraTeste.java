@@ -3,17 +3,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.net.MalformedURLException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import appium.core.DriverFactory;
+import appium.core.BaseTest;
 import bc.ce.thiagoFreitas.page.FormularioPage;
 import bc.ce.thiagoFreitas.page.MenuPage;
 
-
-
-
-public class CalculadoraTeste {
+public class CalculadoraTeste extends BaseTest{
 	
 
 	private MenuPage menuPage = new MenuPage();
@@ -25,10 +21,7 @@ public class CalculadoraTeste {
 		menuPage.acessarFormulario();
 	}				
 	
-	@After
-	public void tearDown() {
-		DriverFactory.killDriver();
-	}
+	
 
 	@Test
 	 public void devePreencherCampoTexto() throws MalformedURLException {
