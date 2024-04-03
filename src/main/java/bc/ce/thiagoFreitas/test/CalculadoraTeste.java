@@ -57,4 +57,15 @@ public class CalculadoraTeste extends BaseTest{
 		assertEquals("Switch: Off", formularioPage.obterSwitchResultado());
 		assertEquals("Checkbox: Marcado", formularioPage.obterCheckboxResultado());
 	 }
+	
+	@Test
+	 public void desafioFormularioDemorado() throws MalformedURLException {
+		formularioPage.escreverNome("Thiago");
+		
+
+		formularioPage.clicarBotaoSalvarDemorado();
+
+		assertEquals("Nome: Thiago", formularioPage.obterNomeResultado());
+		
+	 }
 }

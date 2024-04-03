@@ -37,6 +37,10 @@ public class FormularioPage extends BasePage{
 		clickElement(AppiumBy.accessibilityId("switch"));
 	}
 	
+	public void clicarBotaoSalvarDemorado() {
+		clickElement(By.xpath("//*[contains(@text, 'SALVAR DEMORADO')]"));
+	}
+	
 	public void clicarBotaoSalvar() {
 		clickElement(AppiumBy.accessibilityId("save"));
 	}
