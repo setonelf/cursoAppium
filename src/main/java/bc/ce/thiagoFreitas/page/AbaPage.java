@@ -1,7 +1,5 @@
 package bc.ce.thiagoFreitas.page;
 
-import org.openqa.selenium.By;
-
 import appium.core.BasePage;
 
 public class AbaPage extends BasePage {
