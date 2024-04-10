@@ -28,5 +28,16 @@ public class CliqueTeste extends BaseTest {
 		//verificar texto
 		Assert.assertEquals("Clique Longo", cliquePage.obterTextoResultado());
 	}
+	
+	@Test
+	public void deveRealizarCliqueDuplo() {
+		
+		cliquePage.clicarPorTexto("Clique duplo");
+		cliquePage.clicarPorTexto("Clique duplo");
+		
+		//verificar texto
+		Assert.assertEquals("Duplo Clique", cliquePage.obterTextoResultado());
+	}
+	
 
 }
