@@ -1,0 +1,5 @@
+Erro de socket:
+
+- Parar servidor do Appium
+- adb uninstall io.appium.uiautomator2.server
+- adb uninstall io.appium.uiautomator2.server.test
